@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 import NewBlog from "../pages/NewBlog";
@@ -8,29 +7,33 @@ import Details from "../pages/Details";
 import Profile from "../pages/Profile";
 import Login from "../pages/Login";
 import PrivateRouter from "./PrivateRouter";
+import MenuAppBar from "../components/Navbar";
+import Register from "../pages/Register";
 
 const AppRouter = () => {
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
 
   const AuthContainer = () => (
     <div>
-      <Navbar />
+      <MenuAppBar />
       <PrivateRouter auth={auth} exact path="/" component={Dashboard} />
-      <PrivateRouter auth={auth} exact path="/details" component={Details} />
-      <PrivateRouter auth={auth} exact path="/about" component={About} />
-      <PrivateRouter auth={auth} exact path="/new-blog" component={NewBlog} />
-      <PrivateRouter auth={auth} exact path="/profile" component={Profile} />
+      <PrivateRouter auth={auth} path="/details" component={Details} />
+      <PrivateRouter auth={auth} path="/about" component={About} />
+      <PrivateRouter auth={auth} path="/new-blog" component={NewBlog} />
+      <PrivateRouter auth={auth} path="/profile" component={Profile} />
     </div>
   );
   return (
     <div>
       <Router>
         <Switch>
+          {/* <Route exact path="/" component={Dashboard} /> */}
           <Route
             path="/login"
-            exact
             component={() => <Login auth={auth} setAuth={setAuth} />}
           />
+
+          <Route path="/register" component={Register} />
           <Route component={AuthContainer} />
         </Switch>
       </Router>
