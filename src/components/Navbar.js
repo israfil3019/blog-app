@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { SignOut } from "../helpers/firebase";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: "auto",
     marginRight: "auto",
+    color: "white",
   },
 }));
 
@@ -41,6 +42,11 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    handleClose();
+    SignOut(history);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -54,42 +60,69 @@ export default function MenuAppBar() {
           >
             <CallToActionIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Blog
-          </Typography>
-
+          <Link to="/" className={classes.title}>
+            <Typography variant="h6">Blog</Typography>
+          </Link>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
           <div>
-            <span>{currentUser?.displayname}</span>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={() => history.push("/profile")}>
-                Profile
-              </MenuItem>
-              <MenuItem onClick={() => history.push("/new-blog")}>New</MenuItem>
-              <MenuItem onClick={() => SignOut(history)}>Logout</MenuItem>
-            </Menu>
+            {currentUser?.email ? (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <Link to="/profile">
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                </Link>
+                <Link to="/new-blog">
+                  <MenuItem onClick={handleClose}>New</MenuItem>
+                </Link>
+                <Link>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Link>
+              </Menu>
+            ) : (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <Link to="/login">
+                  <MenuItem onClick={handleClose}>Login</MenuItem>
+                </Link>
+                <Link to="/register">
+                  <MenuItem onClick={handleClose}>Register</MenuItem>
+                </Link>
+              </Menu>
+            )}
           </div>
         </Toolbar>
       </AppBar>

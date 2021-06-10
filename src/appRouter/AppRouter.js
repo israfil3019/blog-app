@@ -15,8 +15,6 @@ const AppRouter = () => {
 
   const AuthContainer = () => (
     <div>
-      <MenuAppBar />
-      <PrivateRouter auth={auth} exact path="/" component={Dashboard} />
       <PrivateRouter auth={auth} path="/details" component={Details} />
       <PrivateRouter auth={auth} path="/about" component={About} />
       <PrivateRouter auth={auth} path="/new-blog" component={NewBlog} />
@@ -26,13 +24,13 @@ const AppRouter = () => {
   return (
     <div>
       <Router>
+        <MenuAppBar />
         <Switch>
-          {/* <Route exact path="/" component={Dashboard} /> */}
           <Route
             path="/login"
             component={() => <Login auth={auth} setAuth={setAuth} />}
           />
-
+          <Route exact path="/" component={Dashboard} />
           <Route path="/register" component={Register} />
           <Route component={AuthContainer} />
         </Switch>

@@ -26,8 +26,13 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  contain: {
+    padding: theme.spacing(0, 4),
+    backgroundColor: "bisque",
+    boxSizing: "border-box",
+  },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -65,7 +70,7 @@ export default function Register() {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className={classes.contain}>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -88,6 +93,7 @@ export default function Register() {
           />
           <TextField
             variant="outlined"
+            margin="normal"
             required
             fullWidth
             id="lastName"
@@ -145,7 +151,7 @@ export default function Register() {
           </Link>
         </form>
       </div>
-      <Box mt={8}>
+      <Box mt={4}>
         <Copyright />
       </Box>
     </Container>
