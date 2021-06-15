@@ -14,7 +14,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,10 +29,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BlogCard() {
+export default function BlogCard({ post }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const history = useHistory();
+  const showContent = () => {
+    history.push({
+      pathname: "/details",
+      post: post,
+    });
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,8 +49,16 @@ export default function BlogCard() {
     setAnchorEl(null);
   };
 
+  // const { author, content, image, published_date, title } = post;
+
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      onClick={(e) => {
+        e.preventDefault();
+        showContent();
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
@@ -61,8 +76,8 @@ export default function BlogCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="MMM DD, YYYY"
+        title={post.author}
+        subheader={post.published_date}
       />
       <Menu
         id="detail-appbar"
@@ -91,14 +106,12 @@ export default function BlogCard() {
       </Menu>
       <CardMedia
         className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
+        image={post.image}
+        title={post.title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {post.content}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -58,7 +58,8 @@ export default function Login({ setAuth, auth }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    // e.preventDefault();
     setAuth(!auth);
     SignIn(email, password, history);
   };

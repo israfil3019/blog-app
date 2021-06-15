@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar() {
   const history = useHistory();
   const { currentUser } = useContext(AuthContext);
-  console.log("navbar clg: ", currentUser);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
