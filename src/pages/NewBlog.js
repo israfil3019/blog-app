@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import blogkey from "../assets/blogkey.jpg";
-import { addCard } from "../helpers/firebase";
+import { addInfo } from "../helpers/firebase";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,7 +10,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import blogPng from "../assets/blog.png";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,17 +47,18 @@ const useStyles = makeStyles((theme) => ({
 
 const NewBlog = () => {
   const classes = useStyles();
-  const [title, setTitle] = useState();
-  const [url, setUrl] = useState();
-  const [text, setText] = useState();
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("https://picsum.photos/100");
+  const [text, setText] = useState("");
   const { currentUser } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    addCard({
+    addInfo({
       title: title,
       url: url,
       text: text,
       author: currentUser.email,
+      published_date: "21.10.20"
     });
     setTitle("");
     setUrl("");
@@ -74,7 +74,7 @@ const NewBlog = () => {
         <Typography component="h1" variant="h5" className={classes.title}>
           ── New Blog ──
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -121,7 +121,7 @@ const NewBlog = () => {
             fullWidth
             variant="contained"
             className={classes.submit}
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
           >
             Submit
           </Button>

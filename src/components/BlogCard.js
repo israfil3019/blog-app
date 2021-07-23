@@ -22,8 +22,12 @@ const useStyles = makeStyles((theme) => ({
     height: 380,
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%",
+    maxWidth: 280,
+    margin: 5,
+    height: 200,
+    display: "flex",
+    alignItems: "middle",
+    justifyContent: "center",
   },
   avatar: {
     backgroundColor: red[500],
@@ -43,7 +47,6 @@ export default function BlogCard({ contact }) {
     setAnchorEl(null);
   };
 
-
   return (
     <Card
       className={classes.root}
@@ -54,9 +57,7 @@ export default function BlogCard({ contact }) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <Typography>
-            {contact.author.substr(0,1)}
-            </Typography>
+            <Typography>{contact.author.substr(0, 1)}</Typography>
           </Avatar>
         }
         action={
@@ -70,8 +71,8 @@ export default function BlogCard({ contact }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={contact.title}
-        subheader={contact.author}
+        title={contact.author}
+        subheader={contact.published_date}
       />
       <Menu
         id="detail-appbar"
@@ -102,10 +103,12 @@ export default function BlogCard({ contact }) {
         className={classes.media}
         image={contact.image}
         title={contact.title}
-      />
+      >
+        <img className={classes.image} src={contact.url} alt="card_media" />
+      </CardMedia>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {contact.text}
+          {contact.title}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
