@@ -11,9 +11,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import loading from "../assets/loading.gif";
-import google from "../assets/googlelogo.png";
-import blog from "../assets/blogkey.jpg";
 
 function Copyright() {
   return (
@@ -31,7 +28,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   contain: {
     padding: theme.spacing(0, 4),
-    backgroundColor: "bisque",
+    backgroundColor: "None",
     boxSizing: "border-box",
   },
   paper: {
