@@ -12,71 +12,14 @@ import Register from "../pages/Register";
 
 const AppRouter = () => {
   const [auth, setAuth] = useState(false);
-  const dummyArray = [
-    {
-      banner:
-        "https://www.ilgisel.com/wp-content/uploads/2019/08/html-dersleri.jpg",
-      title: "HTML",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner: "https://miro.medium.com/max/3600/1*6ahbWjp_g9hqhaTDSJOL1Q.png",
-      title: "JavaScript",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner:
-        "https://res.cloudinary.com/practicaldev/image/fetch/s--zPAa0uAq--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://thepracticaldev.s3.amazonaws.com/i/elytski1o23ybosxmors.jpg",
-      title: "CSS",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner: "https://hackernoon.com/hn-images/1*HSisLuifMO6KbLfPOKtLow.jpeg",
-      title: "React",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner: "",
-      title: "Angular",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner: "",
-      title: "Vue.js",
-      date: "",
-      author: "betulkaplan{@gmail.com",
-    },
-    {
-      banner: "",
-      title: "Semantic UI",
-      date: "",
-      author: "",
-    },
-    {
-      banner: "",
-      title: "Material UI",
-      date: "",
-      author: "",
-    },
-    {
-      banner: "",
-      title: "Firebase",
-      date: "",
-      author: "",
-    },
-  ];
 
   const AuthContainer = () => (
     <div>
-      <PrivateRouter auth={auth} path="/details" component={Details} />
-      <PrivateRouter auth={auth} path="/about" component={About} />
-      <PrivateRouter auth={auth} path="/new-blog" component={NewBlog} />
-      <PrivateRouter auth={auth} path="/profile" component={Profile} />
+      <PrivateRouter auth={auth} exact path="/details" component={Details} />
+      <PrivateRouter auth={auth} exact path="/about" component={About} />
+      <PrivateRouter auth={auth} exact path="/new-blog" component={NewBlog} />
+      <PrivateRouter auth={auth} exact path="/profile" component={Profile} />
+      {/* <PrivateRouter auth={auth} exact path="/" component={Dashboard} /> */}
     </div>
   );
   return (
@@ -85,14 +28,11 @@ const AppRouter = () => {
         <MenuAppBar />
         <Switch>
           <Route
-            exact
             path="/login"
             component={() => <Login auth={auth} setAuth={setAuth} />}
           />
-          <Route>
-            <Dashboard post={dummyArray} />
-          </Route>
           <Route path="/register" component={Register} />
+          <Route exact path="/" component={Dashboard} />
           <Route component={AuthContainer} />
         </Switch>
       </Router>

@@ -14,11 +14,12 @@ import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    width: 285,
+    height: 380,
   },
   media: {
     height: 0,
@@ -29,17 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BlogCard({ post }) {
+export default function BlogCard({ contact }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const history = useHistory();
-  const showContent = () => {
-    history.push({
-      pathname: "/details",
-      post: post,
-    });
-  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -49,20 +43,20 @@ export default function BlogCard({ post }) {
     setAnchorEl(null);
   };
 
-  // const { author, content, image, published_date, title } = post;
 
   return (
     <Card
       className={classes.root}
       onClick={(e) => {
         e.preventDefault();
-        showContent();
       }}
     >
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            <Typography>
+            {contact.author.substr(0,1)}
+            </Typography>
           </Avatar>
         }
         action={
@@ -76,8 +70,8 @@ export default function BlogCard({ post }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={post.author}
-        subheader={post.published_date}
+        title={contact.title}
+        subheader={contact.author}
       />
       <Menu
         id="detail-appbar"
@@ -106,12 +100,12 @@ export default function BlogCard({ post }) {
       </Menu>
       <CardMedia
         className={classes.media}
-        image={post.image}
-        title={post.title}
+        image={contact.image}
+        title={contact.title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {post.content}
+          {contact.text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
