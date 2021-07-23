@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 const NewBlog = () => {
   const classes = useStyles();
   const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("https://picsum.photos/100");
+  const [url, setUrl] = useState("https://picsum.photos/seed/picsum/200");
   const [text, setText] = useState("");
   const { currentUser } = useContext(AuthContext);
   const handleSubmit = (e) => {

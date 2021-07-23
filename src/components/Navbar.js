@@ -94,7 +94,7 @@ export default function MenuAppBar() {
                 <Link to="/new-blog">
                   <MenuItem onClick={handleClose}>New</MenuItem>
                 </Link>
-                <Link>
+                <Link to="/">
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Link>
               </Menu>

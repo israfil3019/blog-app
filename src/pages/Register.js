@@ -41,7 +41,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   contain: {
     padding: theme.spacing(0, 4),
-    backgroundColor: "bisque",
+    backgroundColor: "none",
     boxSizing: "border-box",
   },
   paper: {
@@ -73,7 +73,7 @@ export default function Register() {
   const handleRegister = () => {
     const displayName = `${firstName} ${lastName}`;
     createUser(email, password, displayName, history);
-    history.push("/login");
+    
   };
 
   const handleProvider = () => {

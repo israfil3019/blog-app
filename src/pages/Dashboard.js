@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import firebase from "../helpers/firebase";
+import { useFetch } from "../helpers/firebase";
 import { AuthContext } from "../contexts/AuthContext";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -33,47 +33,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
   const classes = useStyles();
-  // const post = props.location.post;
-  // console.log(post);
-  const history = useHistory();
+  // const contact = props.location.contact;
+  // console.log(contact);
+  // const history = useHistory();
   const { currentUser } = useContext(AuthContext);
 
-  // const { postList, isLoading } = useFetch();
-  // console.log("yüklenen postlar: ", postList);
-
-  const useFetch = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [postList, setPostList] = useState();
-
-    useEffect(() => {
-      setIsLoading(true);
-      const postsRef = firebase.database().ref("posts");
-      postsRef.on("value", (snapshot) => {
-        const posts = snapshot.val();
-        const postArray = [];
-        for (let id in posts) {
-          postArray.push({ id, ...posts[id] });
-        }
-        setPostList(postArray);
-        setIsLoading(false);
-      });
-    }, []);
-    return { postList, isLoading };
-  };
+  const { contactList, isLoading } = useFetch();
+  console.log("yüklenen cardlar: ", contactList);
 
   return (
     <div className={classes.mainRoot}>
-      <Typography className={classes.title} variant="h3" noWrap>
+      <Typography className={classes.title} variant="h4" noWrap>
         ──── Dashboard ────
       </Typography>
       <>
         <Grid container className={classes.root} spacing={5} justify="center">
           <Grid item xs={12}>
             <Grid container justify="center" spacing={5}>
-              <BlogCard />
-              {currentUser?.map((post, index) => (
+              {contactList?.map((contact, index) => (
                 <Grid key={index} item>
-                  <BlogCard post={post} />
+                  <BlogCard contact={contact} key={index} />
                 </Grid>
               ))}
             </Grid>
@@ -83,25 +62,5 @@ const Dashboard = (props) => {
     </div>
   );
 };
-
-// const useFetch = () => {
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [postList, setPostList] = useState();
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     const postsRef = firebase.database().ref("posts");
-//     postsRef.on("value", (snapshot) => {
-//       const posts = snapshot.val();
-//       const postArray = [];
-//       for (let id in posts) {
-//         postArray.push({ id, ...posts[id] });
-//       }
-//       setPostList(postArray);
-//       setIsLoading(false);
-//     });
-//   }, []);
-//   return { postList, isLoading };
-// };
 
 export default Dashboard;
