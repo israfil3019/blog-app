@@ -1,7 +1,10 @@
 import firebase from "firebase/app";
+import "firebase/database";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import { useEffect, useState } from "react";
+import { succesToastify } from "./toastNotify";
 
 export const firebaseApp = firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -12,29 +15,43 @@ export const firebaseApp = firebase.initializeApp({
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
 });
-// try {
-//   firebase.initializeApp(firebaseApp);
-// } catch (err) {
-//   if (!/already exists/.test(err.message)) {
-//     console.error("Firebase initialization error", err.stack);
-//   }
-// }
 
-// const database = firebase.firestore();
-// const storage = firebase.storage();
-
-export const addCard = (post) => {
-  const postRef = firebase.database().ref("posts");
-  postRef.push(post);
-};
-export const removeCard = (id) => {
-  const postRef = firebase.database().ref("posts").child(id);
-  postRef.remove();
+export const addInfo = (info) => {
+  const contactRef = firebase.database().ref("contact");
+  contactRef.push(info);
+  // succesToastify("Added Succesfully!");
 };
 
-export const updateCard = (info) => {
-  const postRef = firebase.database().ref("posts").child(info.id);
-  postRef.update(info);
+export const useFetch = () => {
+  const [contactList, setContactList] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const contactRef = firebase.database().ref("contact");
+    contactRef.on("value", (snapshot) => {
+      const contacts = snapshot.val();
+      const contactArray = [];
+      for (let id in contacts) {
+        contactArray.push({ id, ...contacts[id] });
+      }
+      setContactList(contactArray);
+      setIsLoading(false);
+    });
+  }, []);
+  return { contactList, isLoading };
+};
+
+export const deleteHandler = (id) => {
+  const contactRef = firebase.database().ref("contact").child(id);
+  contactRef.remove();
+  succesToastify("Deleted Succesfully!");
+};
+
+export const updateHandler = (info) => {
+  const contactRef = firebase.database().ref("contact").child(info.id);
+  contactRef.update(info);
+  succesToastify("Updated Succesfully!");
 };
 
 export const createUser = async (email, password, displayName, history) => {
@@ -53,7 +70,7 @@ export const createUser = async (email, password, displayName, history) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(
-          "line 30 ~ createUser ~ errorMessage",
+          "line 73 ~ createUser ~ errorMessage",
           errorMessage,
           errorCode
         );
@@ -92,7 +109,7 @@ export const userObserver = async (setCurrentUser) => {
       setCurrentUser(user);
     } else {
       // User is signed out
-      setCurrentUser(null);
+      setCurrentUser(false);
     }
   });
 };
